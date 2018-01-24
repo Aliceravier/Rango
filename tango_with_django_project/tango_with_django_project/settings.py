@@ -18,7 +18,6 @@ TEMPLATE_DIR = os.path.join(BASE_DIR, 'templates')
 STATIC_DIR = os.path.join(BASE_DIR, 'static')
 MEDIA_DIR = os.path.join(BASE_DIR, 'media')
 
-print (MEDIA_DIR)
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.9/howto/deployment/checklist/
@@ -31,10 +30,6 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
-
-#media stuff
-MEDIA_ROOT = MEDIA_DIR
-MEDIA_URL = '/media/'
 
 # Application definition
 
@@ -135,3 +130,7 @@ USE_TZ = True
 STATIC_URL = '/static/'
 
 STATICFILES_DIRS = [STATIC_DIR, ]
+
+#media stuff
+MEDIA_ROOT = MEDIA_DIR
+MEDIA_URL = '/media/'
