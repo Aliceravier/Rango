@@ -57,6 +57,8 @@ def index(request):
     context_dict = {'categories': category_list, 'pages': pages_list}
     return render(request, 'rango/index.html', context=context_dict)
 
-def about(request):   
-    return render(request, 'rango/about.html')
+def about(request):
+    print(request.method)
+    print(request.user)
+    return render(request, 'rango/about.html', {})
 

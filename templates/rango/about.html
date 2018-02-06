@@ -1,21 +1,16 @@
-<!Doctype html/>
+{% extends 'rango/base.html' %}
+{% load staticfiles %}
 
-{%load staticfiles %}
+{% block title_block %}
+	About page
+{% endblock %}
 
-<html>
-
-	<head>
-		<title>About page</title>
-	</head>
-
-	<body>
+{% block body_block %}
 		<div>
 		This tutorial has been put together by Alice Ravier<br />
 		</div>
 		<div>
-		<a href="/rango/">Index</a><br />
 		 <img src="/media/cat.jpg" alt="Picture of a cat" />  <!-- or {{MEDIA_URL}} instead of /media/, doesn't find the picture if MEDIA_URL is used-->
 			 
 		</div>
-	</body>
-</html>
+{% endblock %}
