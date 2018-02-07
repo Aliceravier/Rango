@@ -10,6 +10,48 @@ from django.contrib.auth import authenticate, login
 from django.core.urlresolvers import reverse
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import logout
+from datetime import datetime
+
+def index(request):
+    category_list = Category.objects.order_by('-likes')[:5]
+    pages_list = Page.objects.order_by('-views')[:5]
+    context_dict = {'categories': category_list, 'pages': pages_list}
+
+    visitor_cookie_handler(request)
+    context_dict['visits'] = request.session['visits']
+    
+    response = render(request, 'rango/index.html', context_dict)    
+    return response
+
+def about(request):
+    visitor_cookie_handler(request)
+    context_dict = {'visits' : int(request.session['visits'])}
+    return render(request, 'rango/about.html', context_dict)
+
+#helper method, used in visitor_cookie_handler
+def get_server_side_cookie(request, cookie, default_val=None):
+    val = request.session.get(cookie)
+    if not val:
+        val = default_val
+    return val
+
+#helper method, used in index and about
+def visitor_cookie_handler(request):
+    visits = int(get_server_side_cookie(request, 'visits', '1'))
+
+    last_visit_cookie = get_server_side_cookie(request, 'last_visit', str(datetime.now()))
+    last_visit_time = datetime.strptime(last_visit_cookie[:-7],
+                                        '%Y-%m-%d %H:%M:%S')
+    if(datetime.now() - last_visit_time).days > 0:
+        visits = visits + 1
+        request.session['last_visit'] = str(datetime.now())
+    else:
+        visits = 1
+        request.session['last_visit'] = last_visit_cookie
+
+    request.session['visits'] = visits #cookie always string, cast as string auto here 
+    
+                            
 
 @login_required
 def add_category(request):
@@ -58,17 +100,6 @@ def add_page(request, category_name_slug):
 
     context_dict = {'form':form, 'category': category}
     return render(request, 'rango/add_page.html', context_dict)
-
-def index(request):
-    category_list = Category.objects.order_by('-likes')[:5]
-    pages_list = Page.objects.order_by('-views')[:5]
-    context_dict = {'categories': category_list, 'pages': pages_list}
-    return render(request, 'rango/index.html', context=context_dict)
-
-def about(request):
-    print(request.method)
-    print(request.user)
-    return render(request, 'rango/about.html', {})
 
 def register(request):
     registered = False
