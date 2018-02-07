@@ -5,7 +5,7 @@ from rango.models import Page
 from rango.forms import CategoryForm
 from rango.forms import PageForm
 from rango.forms import UserForm, UserProfileForm
-from rango.forms import LoginForm  #
+#from rango.forms import LoginForm  #
 from django.contrib.auth import authenticate, login
 from django.core.urlresolvers import reverse
 from django.contrib.auth.decorators import login_required
@@ -112,7 +112,7 @@ def user_login(request):
         username = request.POST.get('username')
         password = request.POST.get('password')
 
-        form = LoginForm(request.POST) #
+        #form = LoginForm(request.POST) #
 
         #returns user object if valid 
         user = authenticate(username=username, password=password)
@@ -125,10 +125,10 @@ def user_login(request):
                 return HttpResponse("Your Rango account is disabled.")
         else:
             #invalid username/password combo
-            #print("Invalid login details: {0}, {1}".format(username, password))
-            print(form.errors)
-            return render(request, 'rango/login.html', {'form': form})
-            #return HttpResponse("Invalid login details supplied.")
+            print("Invalid login details: {0}, {1}".format(username, password))
+            #print(form.errors)
+            #return render(request, 'rango/login.html', {'form': form})
+            return HttpResponse("Invalid login details supplied.")
     else:
         #not a http post
         return render(request, 'rango/login.html', {})
