@@ -26,7 +26,8 @@ def index(request):
 def about(request):
     visitor_cookie_handler(request)
     context_dict = {'visits' : int(request.session['visits'])}
-    return render(request, 'rango/about.html', context_dict)
+    #return render(request, 'rango/about.html', context_dict)
+    return HttpResponse("Rango says here is the about page.")
 
 #helper method, used in visitor_cookie_handler
 def get_server_side_cookie(request, cookie, default_val=None):
